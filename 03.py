@@ -3,22 +3,41 @@ with open("03.txt") as f:
 
 width = len(data[0])
 
-ones = width * [0]
+def ones_in_column(column, data):
+    ones = 0
+    for line in data:
+        if line[column] == "1":
+            ones += 1
+    return ones
 
-for line in data:
-    for bit in range(width):
-        if line[bit] == "1":
-            ones[bit] += 1
+oxygen_data = list(data)
 
-for bit in range(width):
-    if ones[bit] > len(data)/2:
-        ones[bit] = 1
+for column in range(width):
+    ones = ones_in_column(column, oxygen_data)
+    zeros = len(oxygen_data) - ones
+    if ones >= zeros:
+        oxygen_data = list(filter(lambda x: x[column] == "1", oxygen_data))
     else:
-        ones[bit] = 0
+        oxygen_data = list(filter(lambda x: x[column] == "0", oxygen_data))
+#    print(column, oxygen_data)
+    if len(oxygen_data) == 1:
+        oxygen = int(oxygen_data[0], 2)
+        break
 
-gamma = 0
-for bit in range(width):
-    gamma += ones[bit] << (width - 1 - bit)
-epsilon = ~gamma & 0xfff
 
-print(gamma*epsilon)
+co2_data = list(data)
+
+for column in range(width):
+    ones = ones_in_column(column, co2_data)
+    zeros = len(co2_data) - ones
+    if ones >= zeros:
+        co2_data = list(filter(lambda x: x[column] == "0", co2_data))
+    else:
+        co2_data = list(filter(lambda x: x[column] == "1", co2_data))
+    print(len(co2_data))
+    if len(co2_data) == 1:
+        co2 = int(co2_data[0], 2)
+        break
+
+
+print(oxygen*co2)
