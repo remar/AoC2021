@@ -12,6 +12,7 @@ class Board:
     def __init__(self, lines):
         self.lines = []
         self.marks = [5*[False] for x in range(5)]
+        self.has_won = False
         for line in lines:
             self.insert_line(line)
 
@@ -25,11 +26,15 @@ class Board:
                     self.marks[y][x] = True
 
     def wins(self):
+        if self.has_won:
+            return False
         for mark_line in self.marks:
             if all(mark_line):
+                self.has_won = True
                 return True
         for mark_column in list(zip(*self.marks)):
             if all(mark_column):
+                self.has_won = True
                 return True
 
     def unmarked_sum(self):
@@ -58,4 +63,3 @@ for number in numbers:
         board.mark(number)
         if board.wins():
             print("WOOOOO!", number*board.unmarked_sum())
-            exit()
