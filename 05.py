@@ -23,16 +23,12 @@ def add_point(x, y):
     
 for line in data:
     l = parse_line(line)
-    if l[0][0] == l[1][0] or l[0][1] == l[1][1]:
-        print("horiz or vert:", l)
-        pos = list(l[0])
-        delta = [get_direction(l[1][0] - l[0][0]), get_direction(l[1][1] - l[0][1])]
-        print("delta", delta)
-        while pos != l[1]:
-            print(pos)
-            add_point(pos[0], pos[1])
-            pos[0] += delta[0]
-            pos[1] += delta[1]
-        add_point(l[1][0], l[1][1])
+    pos = list(l[0])
+    delta = [get_direction(l[1][0] - l[0][0]), get_direction(l[1][1] - l[0][1])]
+    while pos != l[1]:
+        add_point(pos[0], pos[1])
+        pos[0] += delta[0]
+        pos[1] += delta[1]
+    add_point(l[1][0], l[1][1])
 
 print("result:", len(list(filter(lambda x: x > 1, points.values()))))
